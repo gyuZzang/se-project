@@ -1,0 +1,78 @@
+div{
+    font-family: 'Times New Roman', Times, Arial, Helvetica, sans-serif;
+}
+
+.main_wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.header{
+    display: flex;
+    flex-direction: row;
+    background-color: #282c34;
+    /* min-height: 100vh; */
+    text-align: center;
+    justify-content: center;
+    font-family: 'Times New Roman', Times, Arial, Helvetica, sans-serif;
+    margin-bottom: 20px;
+    font-size: calc(10px + 2vmin);
+    color: white; 
+}
+
+.order_button{
+    width: 100%;
+    background-color: #282c34;
+    margin-top: 20px;
+    font-size: calc(10px + 2vmin);
+    color: white;
+    text-align: center;
+    justify-content: center;
+    padding: 5px;
+}
+
+.myInfo_button{
+    background-color: #282c34;
+    color: white;
+    border-style: none;
+    margin-left: 30%;
+
+}
+
+.prev_order_button{
+    background-color: #282c34;
+    color: white;
+    border-style: none;
+    margin-left:5%;
+}
+
+.main_body{
+    display: flex;
+    flex-direction: row;
+}
+
+.menu{
+    display: flex;
+    flex-direction: column;
+    border: 3px solid #282c34;
+    margin: auto;
+    padding: 10px;
+}
+
+.wrap_menu_list{
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+}
+
+.component--item_card{
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+}
+
+.component--item_text{
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
