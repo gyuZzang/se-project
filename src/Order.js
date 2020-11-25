@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import api from './API';
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 class Order extends Component{
@@ -77,7 +77,7 @@ class Order extends Component{
                 <div>{dish.name}</div>
                 <input type="text" placeholder="0" onChange={this.setDishAmount()}></input>
             </li>))
-
+            //spin box로 구현
             this.state.dish2amount=dish2amount
         }
         return(
@@ -86,13 +86,13 @@ class Order extends Component{
                 <div>
                     {this.state.dish2amount}
                 </div>
-                <button  className="order_button">
-                    <Link to='/prevOrder' className="order_button">
+                <button className="order_button">
+                    <Link  className="order_button">
                         Order
                     </Link>
                 </button>
             </div>
-        )
+        )//모달창 하나 띄워서 주소, 결제방법(CARD,CASH,ACCOUNT), 코멘트
     }
 }
 

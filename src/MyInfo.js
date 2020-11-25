@@ -3,16 +3,23 @@ import api from './API';
 import Modal from 'react-modal'
 class MyInfo extends Component{
     state={
+        email:"",
+        password:"",
+        name:"",
+        gender:"",
+        address:"",
+        phone_number:"",
         infoList:null,
         data:null,
         modalOpen: false,
     }
     getMyInfodata(){
-        api.get('/user',{params:{id:''}})
+        if(this.state.data===null){
+        api.get('/user')
         .then(response => {
-            this.setState({data:response.data.data })
+            this.setState({data:response.data.data})
             console.log(this.state.data)
-        })
+        })}
     }
 
     open_modify_modal=()=>{
@@ -21,20 +28,67 @@ class MyInfo extends Component{
     close_modify_modal=()=>{
         this.setState({modalOpen:false})
     }
+    input_handler=(e)=>{
+        const{name, value}=e.target
+        this.setState({[name]:value})
+    }
+    modify_handler=()=>{
+        const email=this.state.email
+        const password=this.state.password
+        const gender=this.state.gender
+        const name=this.state.name
+        const address=this.state.address
+        const phone_number=this.state.phone_number
+
+        api.put('/user/myinfo',{params:
+            {
+                "transaction_time": Date(),
+                "result_code": "200",
+                "description": "OK",
+                "data": 
+                    {
+                        "id": 1,
+                        "email": {email},
+                        "password": {password},
+                        "name": {name},
+                        "gender": {gender},
+                        "address": {address},
+                        "phone_number": {phone_number}
+                    }
+            }
+        })
+
+    }
+
+    setInfo=()=>{
+        this.setState({email:this.state.data[0].email,
+            name:this.state.data[0].name,
+            gender:this.state.data[0].gender,
+            address:this.state.data[0].address,
+            phone_number:this.state.data[0].phone_number
+        })
+    }
 
     render(){
         let info=[]
+        console.log(this.state.data)
+
         if(this.state.data===null){
             this.getMyInfodata()
         }
         else{
-            info.push(<InfoElement k='email' val={this.state.data[0].email}></InfoElement>)
-            info.push(<InfoElement k='name' val={this.state.data[0].name}></InfoElement>)
-            info.push(<InfoElement k='address' val={this.state.data[0].address}></InfoElement>)
-            info.push(<InfoElement k='phone number' val={this.state.data[0].phone_number}></InfoElement>)
+            if(this.state.phone_number==="")
+            this.setInfo()
+            else{
+                info.push(<InfoElement k='email' val={this.state.email}></InfoElement>)
+                info.push(<InfoElement k='name' val={this.state.name}></InfoElement>)
+                info.push(<InfoElement k='gender' val={this.state.gender}></InfoElement>)
+                info.push(<InfoElement k='address' val={this.state.address}></InfoElement>)
+                info.push(<InfoElement k='phone number' val={this.state.phone_number}></InfoElement>)
 
-            
-            this.state.infoList=info
+                
+                this.state.infoList=info
+            }
         }
         return(
             <div>
@@ -45,6 +99,61 @@ class MyInfo extends Component{
                         Modify My Info
                     </h2>
                     <button onClick={this.close_modify_modal}>X</button>
+                    <div onClick={this.close_modify_modal}>
+                        <div className="loginModal">
+                            <span className="close" onClick={this.close_modify_modal}>
+                            &times;
+                            </span>
+                            <div className="modalContents" onClick={this.state.modalOpen}>
+                                <input
+                                    name="email"
+                                    className="mod_input input_email"
+                                    type="text"
+                                    placeholder={this.state.email}
+                                    onChange={this.input_handler}
+                                />
+                                <input
+                                    name="password"
+                                    className="mod_input input_password"
+                                    type="password"
+                                    placeholder={this.state.password}
+                                    onChange={this.input_handler}
+                                />
+                                <input
+                                    name="name"
+                                    className="mod_input input_name"
+                                    type="text"
+                                    placeholder={this.state.name}
+                                    onChange={this.input_handler}
+                                />                                
+                                <input
+                                name="gender"
+                                className="mod_input input_gender"
+                                type="text"
+                                placeholder={this.state.gender}
+                                onChange={this.input_handler}
+                            />
+                                <input
+                                    name="address"
+                                    className="mod_input input_address"
+                                    type="text"
+                                    placeholder={this.state.address}
+                                    onChange={this.input_handler}
+                                />
+                                <input
+                                    name="phone_number"
+                                    className="mod_input input_phone_number"
+                                    type="text"
+                                    placeholder={this.state.phone_number}
+                                    onChange={this.input_handler}
+                                />
+                            </div>
+                            <button className="loginBtn" onClick={this.modify_handler}>
+                                {" "}
+                                수정{" "}
+                            </button>
+                         </div>
+                    </div>
                 </Modal>
                 <div>
                     <ul className="info_list">
@@ -68,4 +177,6 @@ function InfoElement({k, val}){
         </li>
     )
 }
+
+
 export default MyInfo

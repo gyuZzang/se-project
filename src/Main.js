@@ -29,7 +29,7 @@ class Main extends Component{
                     </div>
                 </div>                   
                 <div className="order_button">
-                    <Link to="/order" className="order_button" >order</Link>
+                    <Link to="/order" className="order_button">order</Link>
                 </div> 
             </div>
 

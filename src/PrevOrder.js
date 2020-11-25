@@ -7,7 +7,7 @@ class PrevOrder extends Component{
         prevOrderList:null
     }
     getPrevOrderdata(){
-        api.get(`/user/1/orders`) //TODO: param id 추가할 것 
+        api.get('/user/1/orders') //TODO: param id,page 추가할 것 
         .then(response => {
             this.setState({data:response.data.data })
             console.log(this.state.data)
@@ -21,7 +21,7 @@ class PrevOrder extends Component{
         else if(this.state.prevOrderList===null){
             prevOrderList=this.state.data.map((order)=>(
                 <OrderElement className="order_element" order_at={order.order_at} price={order.total_price} dishes={order.order_element_list}></OrderElement>
-            )) //TODO: 클릭 시 바로 Order 페이지
+            )) //TODO: 클릭 시 바로 Order 페이지 dish_element, style 정보 넘기기
 
             this.state.prevOrderList=prevOrderList
         }
@@ -38,7 +38,7 @@ class PrevOrder extends Component{
     }
 }
 
-function OrderElement({order_at,price,dishes}){//Q: 스타일 추가할까?
+function OrderElement({order_at,price,dishes}){//Q: 스타일 추가할까? //A: 제목만
     return(
         <li className="order_element">
             <h3>
