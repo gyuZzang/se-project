@@ -1,9 +1,26 @@
 import React, { Component } from 'react';
 import MenuList from './ui/MenuList'
 import {Link} from 'react-router-dom'
+import api from './API';
 
 //https://velog.io/@devmoonsh/React-Router : 페이지 이동 라우터
 class Main extends Component{
+    state={
+        selectedMenu:"",
+        selectedStyle:"",
+        dish2amount:null
+    }
+    setDish2Amount=(e)=>{
+        console.log('selected:'+this.state.selectedMenu)
+        api.get(`/menu/${e}`)
+        .then(response => {
+            this.setState({dish2amount:response.data.data.menu_element_list}) 
+            console.log(response)
+        }).then(console.log('d2a:'+this.state.dish2amount))
+    }
+    setSelectedMenu=id=>{
+        this.setState({selectedMenu:id})
+    }
     render(){
         return(
             <div className="main_wrapper">            
@@ -19,21 +36,14 @@ class Main extends Component{
                         <h2>
                             MENU
                         </h2>
-                        <MenuList/>
+                        <MenuList onSubmit={this.setSelectedMenu} setDish2amount={this.setDish2Amount} />
                     </div>
-                    <div className="menu">
-                        <h2>
-                            STYLE
-                        </h2>
-                        <MenuList/>
-                    </div>
+ 
                 </div>                   
-                <div className="order_button">
-                    <Link to="/order" className="order_button">order</Link>
+                <div className="order_button" >
+                    <Link to={`/order/${this.state.dish2amount}/${this.state.selectedStyle}`} className="order_button">order</Link>
                 </div> 
             </div>
-
-
         )
     }
 }

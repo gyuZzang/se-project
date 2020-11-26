@@ -24,6 +24,7 @@ class PrevOrder extends Component{
             )) //TODO: 클릭 시 바로 Order 페이지 dish_element, style 정보 넘기기
 
             this.state.prevOrderList=prevOrderList
+        
         }
         return(
             <div>
@@ -35,6 +36,7 @@ class PrevOrder extends Component{
                 </ul>
             </div>
         )
+        
     }
 }
 

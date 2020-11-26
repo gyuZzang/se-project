@@ -51,10 +51,13 @@ class Login extends Component{
         })
     }
     login_handler=(e)=>{
+
         const{name, value}=e.target
         this.setState({[name]:value})
     }
     login_click_handler=()=>{
+        this.props.history.push('/main')
+
         const email=this.state.Login_id
         const password=this.state.Login_pw
         api.post('/user/login',{params:
@@ -71,6 +74,7 @@ class Login extends Component{
         })
         .then(res=>{
             if(res.description==="OK"){
+                
                 alert("로그인 성공!")
                 //link to main
                 this.props.history.push('/main')

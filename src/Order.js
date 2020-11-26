@@ -45,6 +45,9 @@ class Order extends Component{
     calc_price(){
 
     }
+    getMatchValue=({match})=>{
+        console.log(match.params)
+    }
     requestOrder(){
         api.post('/user/order',{params:
         {
@@ -68,6 +71,7 @@ class Order extends Component{
 //TODO: 이거 안됨 히히
     render(){
         let dish2amount=[]
+        this.getMatchValue()
         if(this.state.dishList===null){
             this.getDishList()
         }
@@ -75,7 +79,7 @@ class Order extends Component{
             dish2amount=this.state.dishList.map((dish)=>
             (<li>
                 <div>{dish.name}</div>
-                <input type="text" placeholder="0" onChange={this.setDishAmount()}></input>
+                <input type="number" placeholder="0" min="1" onChange={this.setDishAmount()}></input>
             </li>))
             //spin box로 구현
             this.state.dish2amount=dish2amount

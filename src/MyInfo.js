@@ -12,10 +12,11 @@ class MyInfo extends Component{
         infoList:null,
         data:null,
         modalOpen: false,
+        id:"1"
     }
     getMyInfodata(){
         if(this.state.data===null){
-        api.get('/user')
+        api.get(`/user/${this.state.id}`)
         .then(response => {
             this.setState({data:response.data.data})
             console.log(this.state.data)
@@ -61,11 +62,11 @@ class MyInfo extends Component{
     }
 
     setInfo=()=>{
-        this.setState({email:this.state.data[0].email,
-            name:this.state.data[0].name,
-            gender:this.state.data[0].gender,
-            address:this.state.data[0].address,
-            phone_number:this.state.data[0].phone_number
+        this.setState({email:this.state.data.email,
+            name:this.state.data.name,
+            gender:this.state.data.gender,
+            address:this.state.data.address,
+            phone_number:this.state.data.phone_number
         })
     }
 

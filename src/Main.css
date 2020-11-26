@@ -68,9 +68,23 @@ div{
 .component--item_card{
     display: flex;
     flex-direction: row;
-    margin: 10px;
+    margin: 5px;
+    padding: 5px;
 }
 
+.component--item_card_selected{
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+    padding: 5px;
+    background-color: #282c34;
+    color:white;
+}
+
+.component--item_card:hover{
+    background-color: #282c34;
+    color:white;
+}
 .component--item_text{
     display: flex;
     flex-direction: column;

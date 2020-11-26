@@ -24,7 +24,7 @@ class App extends Component{
           <Route exact path="/" component={Login} />
           <Route exact path="/main" component={Main}/>
 	        <Route exact path="/myInfo" component={MyInfo} />
-	        <Route exact path="/order" component={Order} />
+	        <Route exact path="/order/:dish2amount/:style" component={Order} />
 	        <Route exact path="/prevOrder" component={PrevOrder} />
         </Switch>
       </Router>
