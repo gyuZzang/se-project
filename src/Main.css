@@ -52,10 +52,12 @@ div{
 }
 
 .menu{
+    flex:1;
     display: flex;
     flex-direction: column;
     border: 3px solid #282c34;
     margin: auto;
+    margin:5px;
     padding: 10px;
 }
 

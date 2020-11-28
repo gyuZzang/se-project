@@ -12,11 +12,10 @@ class MyInfo extends Component{
         infoList:null,
         data:null,
         modalOpen: false,
-        id:"1"
     }
     getMyInfodata(){
         if(this.state.data===null){
-        api.get(`/user/${this.state.id}`)
+        api.get(`/user`)
         .then(response => {
             this.setState({data:response.data.data})
             console.log(this.state.data)
@@ -41,7 +40,7 @@ class MyInfo extends Component{
         const address=this.state.address
         const phone_number=this.state.phone_number
 
-        api.put('/user/myinfo',{params:
+        api.put('/user',{params:
             {
                 "transaction_time": Date(),
                 "result_code": "200",

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MenuList from './ui/MenuList'
+import StyleList from './ui/StyleList'
 import {Link} from 'react-router-dom'
 import api from './API';
 
@@ -10,16 +11,12 @@ class Main extends Component{
         selectedStyle:"",
         dish2amount:null
     }
-    setDish2Amount=(e)=>{
-        console.log('selected:'+this.state.selectedMenu)
-        api.get(`/menu/${e}`)
-        .then(response => {
-            this.setState({dish2amount:response.data.data.menu_element_list}) 
-            console.log(response)
-        }).then(console.log('d2a:'+this.state.dish2amount))
-    }
+    
     setSelectedMenu=id=>{
         this.setState({selectedMenu:id})
+    }    
+    setSelectedStyle=id=>{
+        this.setState({selectedStyle:id})
     }
     render(){
         return(
@@ -36,12 +33,18 @@ class Main extends Component{
                         <h2>
                             MENU
                         </h2>
-                        <MenuList onSubmit={this.setSelectedMenu} setDish2amount={this.setDish2Amount} />
+                        <MenuList onSubmit={this.setSelectedMenu} />
+                    </div>                    
+                    <div className="menu">
+                        <h2>
+                            Style
+                        </h2>
+                        <StyleList onSubmit={this.setSelectedStyle} />
                     </div>
  
                 </div>                   
                 <div className="order_button" >
-                    <Link to={`/order/${this.state.dish2amount}/${this.state.selectedStyle}`} className="order_button">order</Link>
+                    <Link to={`/order/${this.state.selectedMenu}/${this.state.selectedStyle}`} className="order_button">order</Link>
                 </div> 
             </div>
         )

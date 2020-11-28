@@ -13,6 +13,7 @@ class Login extends Component{
         gender:"",
         address:"",
         phone_number:"",
+        type:"",
         Login_id:"",
         Login_pw:"",
         isLoggedIn:"false"
@@ -29,6 +30,7 @@ class Login extends Component{
         const name=this.state.name
         const address=this.state.address
         const phone_number=this.state.phone_number
+        const type=this.state.type
         api.post('/user/signup',{params:
             {
                 "transaction_time": Date(),
@@ -42,7 +44,8 @@ class Login extends Component{
                         "name": {name},
                         "gender": {gender},
                         "address": {address},
-                        "phone_number": {phone_number}
+                        "phone_number": {phone_number},
+                        "type":{type}
                     }
             }
         })
@@ -56,13 +59,13 @@ class Login extends Component{
         this.setState({[name]:value})
     }
     login_click_handler=()=>{
-        this.props.history.push('/main')
+        //this.props.history.push('/main')
 
         const email=this.state.Login_id
         const password=this.state.Login_pw
         api.post('/user/login',{params:
             {
-                "transaction_time": Date(),
+                "transaction_time": "",
                 "result_code": "200",
                 "description": "OK",
                 "data": 
@@ -73,12 +76,14 @@ class Login extends Component{
             }
         })
         .then(res=>{
-            if(res.description==="OK"){
+            console.log(res.data)
+            if(res.data.description==="OK"){
                 
                 alert("로그인 성공!")
+                
                 //link to main
-                this.props.history.push('/main')
-
+                this.props.history.auth(res.data.data, {type:'bearer'})
+                .push('/main')
             }
             else{
                 alert("아이디/비밀번호를 확인해주세요")
@@ -188,6 +193,23 @@ class Login extends Component{
                                             placeholder="phone number"
                                             onChange={this.input_handler}
                                         />
+                                    </div>
+                                    <div>
+                                        회원 종류
+                                        <select name="type" onChange={this.input_handler}>
+                                            <option value="CUSTOMER">
+                                                customer
+                                            </option>
+                                            <option value="MANAGER">
+                                                manager
+                                            </option>
+                                            <option value="COOK">
+                                                cook
+                                            </option>
+                                            <option value="DELIVERYMAN">
+                                                delivery man
+                                            </option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>

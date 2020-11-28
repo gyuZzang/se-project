@@ -15,14 +15,12 @@ class MenuList extends PureComponent{
         selectedMenu:""
     }
     onFormSubmit = e => {
-        this.setState({selectedMenu:e})
+        this.setState({selectedMenu:e}) 
         this.props.onSubmit(e)
-        this.props.setDish2amount(e)
     }
     getMenuListdata(){
         api.get('/menu').then(response =>         
             {
-                console.log(this.state.data)
                 this.setState({ data:response.data.data })
             }
         )
@@ -40,11 +38,7 @@ class MenuList extends PureComponent{
     render(){
         let menuList=[]
         if(this.state.data===null) {       
-            this.getMenuListdata()
-            //.then(()=>{                 
-            // }, err => {
-            //     console.log(err);
-            // })         
+            this.getMenuListdata()       
         }   
         else{
             //data=this.state.data
