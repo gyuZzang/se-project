@@ -13,7 +13,7 @@ class Login extends Component{
         gender:"",
         address:"",
         phone_number:"",
-        type:"",
+        type:null,
         Login_id:"",
         Login_pw:"",
         isLoggedIn:"false"
@@ -31,26 +31,28 @@ class Login extends Component{
         const address=this.state.address
         const phone_number=this.state.phone_number
         const type=this.state.type
-        api.post('/user/signup',{params:
+        console.log(email, password, gender, name,address,phone_number,type)
+        api.post('/user',{params:
             {
-                "transaction_time": Date(),
-                "result_code": "200",
-                "description": "OK",
-                "data": 
+                transaction_time: Date(),
+                result_code: "200",
+                description: "OK",
+                data: 
                     {
-                        "id": 1,
-                        "email": {email},
-                        "password": {password},
-                        "name": {name},
-                        "gender": {gender},
-                        "address": {address},
-                        "phone_number": {phone_number},
-                        "type":{type}
+
+                        email: email,
+                        password: password,
+                        name: name,
+                        gender: gender,
+                        address: address,
+                        phone_number: phone_number,
+                        type:type
                     }
             }
         })
         .then(res=>{
-            Alert("회원가입이 완료되었습니다!")
+            console.log(res)
+            alert("회원가입이 완료되었습니다!")
         })
     }
     login_handler=(e)=>{
@@ -120,20 +122,20 @@ class Login extends Component{
                         placeholder="비밀번호"
                         onChange={this.login_handler}
                     />
-                    <button className="loginBtn" onClick={this.login_click_handler}>
+                    <button className="loginBtn" onClick={()=>this.login_click_handler()}>
                         {" "}로그인{" "}
                     </button>
-                    <button className="signupBtn" onClick={this.open_signup_modal}> 
+                    <button className="signupBtn" onClick={()=>this.open_signup_modal()}> 
                         {" "}회원가입{" "}
                     </button>
 
-                    <Modal isOpen={this.state.modalOpen} onRequestClose={this.close_signup_modal}>
-                        <div onClick={this.close_signup_modal}>
+                    <Modal ariaHideApp={false} isOpen={this.state.modalOpen} onRequestClose={()=>this.close_signup_modal()}>
+                        <div>
                             <div className="signupModal">
-                                <span className="close" onClick={this.close_signup_modal}>
+                                <span className="close" onClick={()=>this.close_signup_modal()}>
                                 &times;
                                 </span>
-                                <div className="modalContents" onClick={this.state.modalOpen}>
+                                <div className="modalContents" onClick={()=>this.state.modalOpen}>
                                     <div>                                    
                                         이메일
                                         <input
@@ -198,22 +200,22 @@ class Login extends Component{
                                         회원 종류
                                         <select name="type" onChange={this.input_handler}>
                                             <option value="CUSTOMER">
-                                                customer
+                                            CUSTOMER
                                             </option>
                                             <option value="MANAGER">
-                                                manager
+                                            MANAGER
                                             </option>
                                             <option value="COOK">
-                                                cook
+                                            COOK
                                             </option>
                                             <option value="DELIVERYMAN">
-                                                delivery man
+                                            DELIVERYMAN
                                             </option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            <button onClick={this.signup_handler}>sign up</button>
+                            <button onClick={()=>this.signup_handler()}>sign up</button>
                         </div>
                     </Modal>
                 </div>
