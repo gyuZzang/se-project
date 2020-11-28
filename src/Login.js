@@ -13,7 +13,7 @@ class Login extends Component{
         gender:"",
         address:"",
         phone_number:"",
-        type:null,
+        type:"CUSTOMER",
         Login_id:"",
         Login_pw:"",
         isLoggedIn:"false"
@@ -30,8 +30,8 @@ class Login extends Component{
         const name=this.state.name
         const address=this.state.address
         const phone_number=this.state.phone_number
-        const type=this.state.type
-        console.log(email, password, gender, name,address,phone_number,type)
+        const type=this.state.type.toString()
+        console.log(type)
         api.post('/user',{params:
             {
                 transaction_time: Date(),
