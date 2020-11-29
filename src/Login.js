@@ -30,25 +30,32 @@ class Login extends Component{
         const name=this.state.name
         const address=this.state.address
         const phone_number=this.state.phone_number
-        const type=this.state.type.toString()
-        console.log(type)
-        api.post('/user',{params:
-            {
-                transaction_time: Date(),
-                result_code: "200",
-                description: "OK",
-                data: 
-                    {
 
-                        email: email,
-                        password: password,
-                        name: name,
-                        gender: gender,
-                        address: address,
-                        phone_number: phone_number,
-                        type:type
-                    }
-            }
+        const type=this.state.type
+        console.log(email, password, gender, name,address,phone_number,type)
+
+        fetch('http://localhost:8080/api/user', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(
+                {
+                    transaction_time: Date(),
+                    result_code: "200",
+                    description: "OK",
+                    data: 
+                        {
+                            email,
+                            password,
+                            name,
+                            gender,
+                            address,
+                            phone_number,
+                            type
+                        }
+                }
+            )
         })
         .then(res=>{
             console.log(res)
@@ -65,26 +72,33 @@ class Login extends Component{
 
         const email=this.state.Login_id
         const password=this.state.Login_pw
-        api.post('/user/login',{params:
-            {
-                "transaction_time": "",
-                "result_code": "200",
-                "description": "OK",
-                "data": 
-                    {
-                        "email": {email},
-                        "password": {password},
+        
+        fetch('http://localhost:8080/api/user/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(
+                {
+                    transaction_time: "2020-11-29T01:30:35.92095",
+                    result_code: "200",
+                    description: "OK",
+                    data: {
+                        email,
+                        password
                     }
-            }
+                }
+            )
         })
+        .then(res => res.json())
         .then(res=>{
-            console.log(res.data)
-            if(res.data.description==="OK"){
+            console.log(res)
+            if(res.description==="OK"){
                 
                 alert("로그인 성공!")
                 
                 //link to main
-                this.props.history.auth(res.data.data, {type:'bearer'})
+                this.props.history.auth(res.data, {type:'bearer'})
                 .push('/main')
             }
             else{
