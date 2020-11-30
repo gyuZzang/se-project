@@ -14,12 +14,11 @@ class MyInfo extends Component{
         modalOpen: false,
     }
     getMyInfodata(){
-        if(this.state.data===null){
         api.get(`/user`)
         .then(response => {
             this.setState({data:response.data.data})
             console.log(this.state.data)
-        })}
+        })
     }
 
     open_modify_modal=()=>{
@@ -42,21 +41,28 @@ class MyInfo extends Component{
         
         api.put('/user',
             {
-                "transaction_time": Date(),
                 "result_code": "200",
                 "description": "OK",
                 "data": 
                     {
-                        "id": 1,
-                        "email": {email},
-                        "password": {password},
-                        "name": {name},
-                        "gender": {gender},
-                        "address": {address},
-                        "phone_number": {phone_number}
+                        // "email": {email},            <----- {}를 씌우니까 에러가 나죠
+                        // "password": {password},
+                        // "name": {name},
+                        // "gender": {gender},
+                        // "address": {address},
+                        // "phone_number": {phone_number}
+                        email,
+                        password,
+                        name,
+                        gender,
+                        address,
+                        phone_number
                     }
             }
         )
+        .then(res => {
+            console.log(res);
+        })
 
     }
 
@@ -71,7 +77,6 @@ class MyInfo extends Component{
 
     render(){
         let info=[]
-        console.log(this.state.data)
 
         if(this.state.data===null){
             this.getMyInfodata()

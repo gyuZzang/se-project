@@ -69,17 +69,17 @@ class Order extends Component{
         const style=this.props.match.params.style
         api.post('/order',
             {
-                transaction_time: Date(), //Q: 되나 이게?
-                result_code: "200", //Q: 그냥 이렇게 넣으면 되나여
+                //transaction_time: Date(), //Q: 되나 이게?         A: 에러나니까 걍 빼자
+                //result_code: "200", //Q: 그냥 이렇게 넣으면 되나여    A: 어차피 안씀
                 description: "OK",
                 data: {
-                    order_at : Date(),
                     rev_address : address,
                     payment_type : payment_type,
                     comment : comment,
                     style : {
                         id : style
                     },
+                    order_at : new Date().toISOString(),
                     order_element_list : selectedDishes
                 },
                 pagination: { //Q: 뭘 넣어야하나..?

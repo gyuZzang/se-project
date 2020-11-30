@@ -36,14 +36,13 @@ class Login extends Component{
         const type=this.state.type
         console.log(email, password, gender, name,address,phone_number,type)
 
-        fetch('http://101.101.210.248/api/user', {
+        fetch('http://localhost/api/user', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(
                 {
-                    transaction_time: Date(),
                     result_code: "200",
                     description: "OK",
                     data: 
@@ -59,10 +58,10 @@ class Login extends Component{
                 }
             )
         })
+        .then(res => res.json())
         .then(res=>{
             console.log(res)
             alert("회원가입이 완료되었습니다!")
-
         })
     }
     login_handler=(e)=>{
@@ -76,7 +75,7 @@ class Login extends Component{
 
         const email=this.state.Login_id
         const password=this.state.Login_pw
-        fetch('http://101.101.210.248/api/user/login', {
+        fetch('http://localhost/api/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -97,8 +96,7 @@ class Login extends Component{
         .then(res=>{
             console.log(res.data)
             if(res.description==="OK"){
-                
-                axios.defaults.headers.common={'Authorization': `bearer ${res.data}`}
+                this.registerSuccessfulLoginForJwt(res.data);       // <---- request header에 token 추가도 안돼있네요 
 
                 //this.setState({bearer_token:res.data})
                 alert("로그인 성공!")
@@ -122,9 +120,48 @@ class Login extends Component{
             }
             else{
                 alert("아이디/비밀번호를 확인해주세요")
+                this.props.history.push('/')
             }
         })
     }
+    
+    registerSuccessfulLoginForJwt(token) {
+
+        localStorage.setItem('token', token);
+        this.setupAxiosInterceptors();
+    }
+
+    setupAxiosInterceptors() {
+        api.interceptors.request.use(
+            config => {
+                const token = localStorage.getItem('token');
+
+                if (token) {
+                    config.headers['Authorization'] = 'Bearer ' + token;
+                }
+                // config.headers['Content-Type'] = 'application/json';
+                return config;
+            },
+            error => {
+                Promise.reject(error)
+            });
+    }
+
+    isUserLoggedIn() {
+        const token = localStorage.getItem('token');
+        console.log(token);
+
+        if (token) {
+            return true;
+        }
+        
+        return false;
+    }
+
+    logout() {
+        localStorage.removeItem("token");
+    }
+
     open_signup_modal=()=>{
         this.setState({modalOpen:true})
     }    
