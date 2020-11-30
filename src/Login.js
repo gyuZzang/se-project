@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import MenuList from './ui/MenuList'
 import {Link} from 'react-router-dom'
 import { Alert } from 'react-bootstrap';
+import axios from 'axios'
 import api from './API';
 import Modal from 'react-modal'
 class Login extends Component{
@@ -16,7 +17,8 @@ class Login extends Component{
         type:"CUSTOMER",
         Login_id:"",
         Login_pw:"",
-        isLoggedIn:"false"
+        isLoggedIn:"false",
+        bearer_token:null
 
     }
     input_handler=(e)=>{
@@ -34,7 +36,7 @@ class Login extends Component{
         const type=this.state.type
         console.log(email, password, gender, name,address,phone_number,type)
 
-        fetch('http://localhost:8080/api/user', {
+        fetch('http://101.101.210.248/api/user', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -46,13 +48,13 @@ class Login extends Component{
                     description: "OK",
                     data: 
                         {
-                            email,
-                            password,
-                            name,
-                            gender,
-                            address,
-                            phone_number,
-                            type
+                            email:email,
+                            password:password,
+                            name:name,
+                            gender:gender,
+                            address:address,
+                            phone_number:phone_number,
+                            type:type
                         }
                 }
             )
@@ -60,6 +62,7 @@ class Login extends Component{
         .then(res=>{
             console.log(res)
             alert("회원가입이 완료되었습니다!")
+
         })
     }
     login_handler=(e)=>{
@@ -69,11 +72,11 @@ class Login extends Component{
     }
     login_click_handler=()=>{
         //this.props.history.push('/main')
+        this.props.history.push('/main_manager')
 
         const email=this.state.Login_id
         const password=this.state.Login_pw
-        
-        fetch('http://localhost:8080/api/user/login', {
+        fetch('http://101.101.210.248/api/user/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -84,22 +87,38 @@ class Login extends Component{
                     result_code: "200",
                     description: "OK",
                     data: {
-                        email,
-                        password
+                        email:email,
+                        password:password
                     }
                 }
             )
         })
         .then(res => res.json())
         .then(res=>{
-            console.log(res)
+            console.log(res.data)
             if(res.description==="OK"){
                 
+                axios.defaults.headers.common={'Authorization': `bearer ${res.data}`}
+
+                //this.setState({bearer_token:res.data})
                 alert("로그인 성공!")
                 
                 //link to main
-                this.props.history.auth(res.data, {type:'bearer'})
-                .push('/main')
+                api.get(`/user`)
+                .then(response => {
+                    console.log(response.data.data.type)
+                    switch(response.data.data.type){
+                        case 'MANAGER':
+                            this.props.history.push('/main_manager')
+                            break
+                        case 'CUSTOMER':
+                            this.props.history.push('/main')
+                            break
+                        default:
+                            this.props.history.push('/main_staff')
+                            break
+                    }
+                })
             }
             else{
                 alert("아이디/비밀번호를 확인해주세요")

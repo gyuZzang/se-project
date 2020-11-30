@@ -39,8 +39,8 @@ class MyInfo extends Component{
         const name=this.state.name
         const address=this.state.address
         const phone_number=this.state.phone_number
-
-        api.put('/user',{params:
+        
+        api.put('/user',
             {
                 "transaction_time": Date(),
                 "result_code": "200",
@@ -56,7 +56,7 @@ class MyInfo extends Component{
                         "phone_number": {phone_number}
                     }
             }
-        })
+        )
 
     }
 

@@ -10,7 +10,7 @@ class Order extends Component{
         stylePrice:0,
         selectedDishes:null, //선택 메뉴의 dish list
         dish2amount:null, //front (html tag)
-        payment_type:null,
+        payment_type:"CARD",
         address:null,
         comment:null,
         modalOpen:false,
@@ -67,14 +67,13 @@ class Order extends Component{
         const payment_type=this.state.payment_type
         const comment=this.state.comment
         const style=this.props.match.params.style
-        api.post('/order',{ params:
+        api.post('/order',
             {
                 transaction_time: Date(), //Q: 되나 이게?
                 result_code: "200", //Q: 그냥 이렇게 넣으면 되나여
                 description: "OK",
                 data: {
                     order_at : Date(),
-                    user_id : 1, //Q: 유저 아이디 필요한거신가? 지워도 되는 것인가?
                     rev_address : address,
                     payment_type : payment_type,
                     comment : comment,
@@ -89,7 +88,7 @@ class Order extends Component{
                     current_page: 2,
                     current_elements: 0
                 }
-            }})
+            })
         .then(response =>{
             console.log(response)
             if(response.data.description==="OK"){
@@ -181,12 +180,12 @@ class Order extends Component{
                 </div>
                 <button className="order_button" onClick={()=>this.open_order_modal()}>Order</button>
                 <Modal ariaHideApp={false} isOpen={this.state.modalOpen} onRequestClose={()=>this.close_order_modal()}>
-                        <div onClick={()=>this.close_order_modal()}>
+                        <div>
                             <div className="orderModal">
                                 <span className="close" onClick={()=>this.close_order_modal()}>
                                 &times;
                                 </span>
-                                <div className="modalContents" onClick={()=>this.state.modalOpen()}>
+                                <div className="modalContents" onClick={()=>this.state.modalOpen}>
                                     <div>
                                         배달 주소
                                         <input
