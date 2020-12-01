@@ -98,62 +98,61 @@ class MyInfo extends Component{
         return(
             <div>
                 <h1>My Info</h1>
-                <button onClick={this.open_modify_modal}>modification</button>
-                <Modal isOpen={this.state.modalOpen} onRequestClose={this.close_modify_modal}>
+                <button onClick={()=>this.open_modify_modal()}>modification</button>
+                <Modal isOpen={this.state.modalOpen} onRequestClose={()=>this.close_modify_modal()}>
                     <h2>
                         Modify My Info
                     </h2>
-                    <button onClick={this.close_modify_modal}>X</button>
-                    <div onClick={this.close_modify_modal}>
+                    <div>
                         <div className="loginModal">
-                            <span className="close" onClick={this.close_modify_modal}>
+                            <span className="close" onClick={()=>this.close_modify_modal()}>
                             &times;
                             </span>
-                            <div className="modalContents" onClick={this.state.modalOpen}>
+                            <div className="modalContents" onClick={()=>this.state.modalOpen()}>
                                 <input
                                     name="email"
                                     className="mod_input input_email"
                                     type="text"
                                     placeholder={this.state.email}
-                                    onChange={this.input_handler}
+                                    onChange={()=>this.input_handler()}
                                 />
                                 <input
                                     name="password"
                                     className="mod_input input_password"
                                     type="password"
                                     placeholder={this.state.password}
-                                    onChange={this.input_handler}
+                                    onChange={()=>this.input_handler()}
                                 />
                                 <input
                                     name="name"
                                     className="mod_input input_name"
                                     type="text"
                                     placeholder={this.state.name}
-                                    onChange={this.input_handler}
+                                    onChange={()=>this.input_handler()}
                                 />                                
                                 <input
                                 name="gender"
                                 className="mod_input input_gender"
                                 type="text"
                                 placeholder={this.state.gender}
-                                onChange={this.input_handler}
+                                onChange={()=>this.input_handler()}
                             />
                                 <input
                                     name="address"
                                     className="mod_input input_address"
                                     type="text"
                                     placeholder={this.state.address}
-                                    onChange={this.input_handler}
+                                    onChange={()=>this.input_handler()}
                                 />
                                 <input
                                     name="phone_number"
                                     className="mod_input input_phone_number"
                                     type="text"
                                     placeholder={this.state.phone_number}
-                                    onChange={this.input_handler}
+                                    onChange={()=>this.input_handler()}
                                 />
                             </div>
-                            <button className="loginBtn" onClick={this.modify_handler}>
+                            <button className="loginBtn" onClick={()=>this.modify_handler()}>
                                 {" "}
                                 수정{" "}
                             </button>

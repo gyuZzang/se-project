@@ -10,9 +10,10 @@ class Main extends Component{
     state={
         selectedMenu:"",
         selectedStyle:"",
-        dish2amount:null
+        dish2amount:null,
+        openModal:false
     }
-    
+
     setSelectedMenu=id=>{
         this.setState({selectedMenu:id})
     }    
