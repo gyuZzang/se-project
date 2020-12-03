@@ -9,7 +9,7 @@ div{
 
 .header{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     background-color: #282c34;
     text-align: center;
     justify-content: center;
@@ -19,6 +19,27 @@ div{
     color: white; 
 }
 
+li{
+    list-style-type: none;    
+}
+.order_button:hover{
+    color: white;
+
+}
+
+.header:hover{
+    color: white;
+
+}
+
+.nav-item :hover{
+    color:white;
+    text-decoration: none;
+}
+Link{
+    text-decoration: none;
+    color: white;
+}
 .order_button{
     width: 100%;
     background-color: #282c34;
@@ -53,6 +74,7 @@ div{
     flex:1;
     display: flex;
     flex-direction: column;
+    text-align: center;
     border: 3px solid #282c34;
     margin: auto;
     margin:5px;

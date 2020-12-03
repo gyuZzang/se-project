@@ -51,7 +51,7 @@ class MenuList extends PureComponent{
                 {
                     return(
                         <li className="component--item_card_selected" onClick={()=>this.onFormSubmit(i)} >
-                            <img src={i.img_url} className="image--itemcard" alt="" />
+                            <img src={i.img_url} className="image--itemcard col-sm-3" alt="" />
                             <div className="component--item_text">
                                 <h3>
                                     <span >{i.name}</span>
@@ -65,7 +65,7 @@ class MenuList extends PureComponent{
                 else{
                     return(
                         <li className="component--item_card" onClick={()=>this.onFormSubmit(i)} >
-                            <img src={i.img_url} className="image--itemcard" alt="" />
+                            <img src={i.img_url} className="image--itemcard col-sm-3" alt="" />
                             <div className="component--item_text">
                                 <h3>
                                     <span >{i.name}</span>

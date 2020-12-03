@@ -107,29 +107,36 @@ class MyInfo extends Component{
             }
         }
         return(
-            <div>
-                <h1>My Info</h1>
-                <button onClick={()=>this.open_modal_handler()}>modification</button>
-                <Modal isOpen={this.state.modalOpen} onRequestClose={()=>this.close_modify_modal()}>
+            <div className="main_wrapper">            
+            <div className="header">
+                <h1 className="title">
+                    Mr.Daebak Dinner Service
+                </h1>
+                </div>
+                <div className>
 
-                    <div>
-                        <div className="loginModal">                    
-                        <h2>
-                        Modify My Info
-                    </h2>
-                            <span className="close" onClick={()=>this.close_modify_modal()}>
-                            &times;
-                            </span>
-                            <div className="modalContents" onClick={this.state.modalOpen}>
-                                <div>
-                                email
+                <h1>My Info</h1>
+                <Modal className="bg-light modal-dialog modal-m" isOpen={this.state.modalOpen} onRequestClose={()=>this.close_modify_modal()}>
+                <div>
+                            <div className="modal-content bg-light signupModal">
+                                <div className="modal-header">
+
+                                <span className="close" onClick={()=>this.close_modify_modal()}>
+                                &times;
+                                </span>
+                                <h4 className="modal-title">회원정보 수정</h4>
+                                </div>
+
+                            <div className="modal-body" onClick={this.state.modalOpen}>
+                                <div className="row">
+                                <label className="col-sm-5">email</label>
                                 <input
                                     name="email"
                                     className="mod_input input_email"
                                     type="email"
                                     onChange={this.input_handler}
-                                /></div><div>
-                                password
+                                /></div><div className="row">
+                                <label className="col-sm-5">password</label>
                                 <input
                                     name="password"
                                     className="mod_input input_password"
@@ -137,8 +144,8 @@ class MyInfo extends Component{
                                     onChange={this.input_handler}
 
                                 /></div>
-                                <div>
-                                name
+                                <div className="row">
+                                <label className="col-sm-5">name</label>
                                 <input
                                     name="name"
                                     className="mod_input input_name"
@@ -146,8 +153,8 @@ class MyInfo extends Component{
                                     onChange={this.input_handler}
 
                                 /> </div>
-                                <div>
-                                gender                               
+                                <div className="row">
+                                <label className="col-sm-5">gender</label>                               
                                 <input
                                 name="gender"
                                 className="mod_input input_gender"
@@ -155,8 +162,8 @@ class MyInfo extends Component{
                                 onChange={this.input_handler}
 
                             /></div>
-                            <div>
-                                address
+                            <div className="row">
+                            <label className="col-sm-5">address</label>
                                 <input
                                     name="address"
                                     className="mod_input input_address"
@@ -164,8 +171,8 @@ class MyInfo extends Component{
                                     onChange={this.input_handler}
 
                                 /></div>
-                                <div>
-                                phone number
+                                <div className="row">
+                                <label className="col-sm-5">phone number</label>
                                 <input
                                     name="phone_number"
                                     className="mod_input input_phone_number"
@@ -174,10 +181,12 @@ class MyInfo extends Component{
 
                                 /></div>
                             </div>
-                            <button className="modal_button" onClick={()=>this.modify_handler()}>
+                            <div className="modal-footer">
+                            <button className="btn modal_button" onClick={()=>this.modify_handler()}>
                                 {" "}
                                 수정{" "}
                             </button>
+                            </div>
                          </div>
                     </div>
                 </Modal>
@@ -186,6 +195,13 @@ class MyInfo extends Component{
                         {this.state.infoList}
                     </ul>
                 </div>
+                <div className="row">
+                    <div className="col-sm-2"></div>
+                <button className="btn col-sm-4" onClick={()=>this.open_modal_handler()}>modification</button>
+                
+                <div className="col-sm-2"></div>
+                </div>
+            </div>
             </div>
         )
     }
@@ -193,14 +209,14 @@ class MyInfo extends Component{
 //모달: https://velog.io/@7p3m1k/React-modal-%EB%A1%9C%EA%B7%B8%EC%9D%B8%EC%B0%BD-%EB%A7%8C%EB%93%A4%EA%B8%B0
 function InfoElement({k, val}){
     return(
-        <li className="info_element">
-            <div className="key">
+        <div className="row info_element">
+            <div className="col-sm-7 key">
                 {k}
             </div>
-            <div className="value">
+            <div className="col-sm-5 value">
                 {val}
             </div>
-        </li>
+        </div>
     )
 }
 

@@ -46,7 +46,7 @@ class NextDeliver extends Component{
         else{
             address=this.state.address
             total_price=this.state.total_price
-            button=<button onClick={()=>this.finish_delivery()}>배달 완료!</button>
+            button=<button className="btn" onClick={()=>this.finish_delivery()}>배달 완료!</button>
         }
 
         return(

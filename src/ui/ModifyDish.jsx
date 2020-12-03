@@ -122,9 +122,10 @@ class ModifyDish extends PureComponent{
         } 
         else{
             dishList= this.state.data.map((i) => 
-                (   <div>
-                        <li className="component--item_card" onClick={()=>this.open_modal_handler(i)} >
-                            <img src={i.img_url} className="image--itemcard" alt="" />
+                (   <div className="row">
+                        <div className="col-sm-10">
+                        <li className=" component--item_card" onClick={()=>this.open_modal_handler(i)} >
+                            <img src={i.img_url} className="image--itemcard col-sm-3" alt="" />
                             <div className="component--item_text">
                                 <h3 >
                                     <span>{i.name}</span>
@@ -132,7 +133,8 @@ class ModifyDish extends PureComponent{
                                 <p > {i.price}</p>
                             </div>
                         </li>
-                        <div><button onClick={()=>this.requestDeleteDish(i.id)}>x</button> </div>
+                        </div>
+                        <div className="col-sm-2" onClick={()=>this.requestDeleteDish(i.id)}>&times;</div>
                     </div>
                 )
                 
@@ -144,21 +146,30 @@ class ModifyDish extends PureComponent{
             <div>
                 <ul className="wrap_menu_list">                    
                         {this.state.dishList} 
-                        <li className="component--item_card" onClick={()=>this.open_modal_handler()}>
-                            <h1>
+                        <li className="component--item_card col-sm-3" onClick={()=>this.open_modal_handler()}>
+                        <div className="col-sm-4"/>
+
+                        <div className="col-sm-4">
+                            <h1 >
                                 +
                             </h1>
+                        </div>
                         </li>   
                 </ul> 
-                <Modal ariaHideApp={false} isOpen={this.state.modalOpen} onRequestClose={()=>this.close_modify_modal()}>
+                <Modal className="bg-light modal-dialog modal-m" ariaHideApp={false} isOpen={this.state.modalOpen} onRequestClose={()=>this.close_modify_modal()}>
                     <div>
-                        <div className="modifyModal">
+                    <div className="modal-content bg-light signupModal">
+                                <div className="modal-header">
+
                             <span className="close" onClick={()=>this.close_modify_modal()}>
                             &times;
                             </span>
-                            <div className="modalContents" onClick={()=>this.state.modalOpen}>
-                                <div>                                    
-                                    요리 이름
+                            <h4 className="modal-title">요리 설정</h4>
+                                </div>
+                            <div className="modal-body" onClick={()=>this.state.modalOpen}>
+                                <div className="row">                                    
+                                    <label className="col-sm-5">                                    
+                                    요리 이름</label>
                                     <input
                                         name="name"
                                         className="mod_input input_name"
@@ -167,8 +178,9 @@ class ModifyDish extends PureComponent{
                                     
                                     /> 
                                 </div>                                
-                                <div>                                    
-                                    가격
+                                <div className="row">                                    
+                                    <label className="col-sm-5">가격</label>                                    
+                                   
                                     <input
                                         name="price"
                                         className="mod_input input_price"
@@ -179,9 +191,12 @@ class ModifyDish extends PureComponent{
                                 </div>
 
                             </div>
+                            <div className="modal-footer">
+                            <button onClick={()=>this.button_handler()}>완료</button>
+                            </div>
+                            </div>
+
                         </div>
-                        <button onClick={()=>this.button_handler()}>완료</button>
-                    </div>
                 </Modal>    
             </div>
         )

@@ -50,7 +50,7 @@ class PrevOrder extends Component{
                     del=""
                 }
 
-                let order_group = <OrderGroup className="order_group" order_at={order.order_at} price={order.total_price} order_elements={order_element_tag_list}  dishes={order_elements} style={order.style} setSelect={this.setSelect} del={del}></OrderGroup>
+                let order_group = <OrderGroup className="col order_group" order_at={order.order_at} price={order.total_price} order_elements={order_element_tag_list}  dishes={order_elements} style={order.style} setSelect={this.setSelect} del={del}></OrderGroup>
 
                 return order_group
             }) //TODO: 클릭 시 바로 Order 페이지 dish_element, style 정보 넘기기
@@ -58,8 +58,15 @@ class PrevOrder extends Component{
         }
         console.log(this.state.selectedDishes,this.state.style)
         return(
-            <div className="main_wrapper">
-                <div className="main_body">
+            <div className="main_wrapper">            
+                <Link  to="/main" className="header">
+                    <h1 className="title">
+                        Mr.Daebak Dinner Service
+                    </h1>
+                </Link>
+                <div className="col-sm-3"></div>
+
+                <div className="col-sm-9">
                     <h2>
                         Previous Order List
                     </h2>
@@ -74,7 +81,7 @@ class PrevOrder extends Component{
                         style : this.state.style,
                         dishes : this.state.selectedDishes
                     }]
-                }}>order</Link>
+                }}><div className="order_button">order</div></Link>
                 
             </div>    
         )
@@ -83,18 +90,22 @@ class PrevOrder extends Component{
 }
 
 function OrderGroup({order_at,price,order_elements, setSelect, dishes, style,del}){
+    const oa = new Date(order_at)
+    console.log(oa);
+    const order_at_string = `${oa.getFullYear()}년 ${oa.getMonth()+1}월 ${oa.getDate()}일  ${oa.getHours()}시 ${oa.getMinutes()}분`
     return(
         <div>
-            <li className='order_element component--item_card' onClick={()=>setSelect(dishes,style)}>
-                <h3>
-                    {order_at}
+            <li className='col-sm-12 order_element component--item_card' onClick={()=>setSelect(dishes,style)}>
+                <div className="col-sm-12">
+                <h3 className="row-sm-12">
+                    {order_at_string}
                 </h3>
-                <p>
-                    {price}
+                <p className="row"> 
+                    가격: {price}원
                 </p>
-                <p>
+                <p className="row">
                     {order_elements}
-                </p>
+                </p></div>
             </li>
             {del}
         </div>
@@ -103,12 +114,9 @@ function OrderGroup({order_at,price,order_elements, setSelect, dishes, style,del
 
 function OrderElement({dish, quantity}){//Q: 스타일 추가할까? //A: 제목만
     return(
-        <li className="order_element">
-            <p>
-                {dish}
-            </p>
-            <p>
-                {quantity}
+        <li className="row order_element">
+            <p className="col-sm-10">
+                {dish} :{quantity}
             </p>
         </li>
     )

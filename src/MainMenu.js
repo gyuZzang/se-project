@@ -15,22 +15,16 @@ export default function SimpleMenu() {
     setAnchorEl(null);
   };
 
-  return (
-    <div>
-      <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-        Menu
-      </Button>
-      <Menu
-        id="simple-menu"
-        anchorEl={anchorEl}
-        keepMounted
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
-      >
-        <MenuItem onClick={handleClose}><Link href="/myInfo" lassName="myInfo_button" color="inherit">{'내 정보'}</Link></MenuItem>
-        <MenuItem onClick={handleClose}><Link href="/prevOrder" lassName="prev_order_button" color="inherit">{'주문 내역'}</Link></MenuItem>
-        <MenuItem onClick={handleClose}>로그아웃</MenuItem>
-      </Menu>
+  return ( 
+          
+    <div className="nav_wrapper">
+    <div className="nav-item active col-sm-2">
+        <Link to="/myInfo" className="nav-link" href="#">myInfo</Link>
     </div>
+    <div className="nav-item col-sm-3">
+        <Link to="/prevOrder" className="nav-link" href="#">Prev Orders</Link>
+    </div>
+</div>
+ 
   );
 }

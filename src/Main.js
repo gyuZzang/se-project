@@ -42,14 +42,22 @@ class Main extends Component{
                     dishes: this.getSelectedDishes(this.state.selectedMenu),
                     style : this.state.selectedStyle
                 }]
-            }} className="order_button">주문</Link> 
+            }} ><div className="order_button">주문</div></Link> 
         return(
             <div className="main_wrapper">            
                 <div className="header">
-                    <h1 className="title">
+                    <div className="title_wrapper">
+                    <h1 className="title row">
                         Mr.Daebak Dinner Service
-                    </h1>
-                    <MainMenu/>
+                    </h1></div>
+                    <div className="nav_wrapper">
+                        <div className="nav-item active col-sm-2">
+                            <Link to="/myInfo" className="nav-link" href="#">myInfo</Link>
+                        </div>
+                        <div className="nav-item col-sm-3">
+                            <Link to="/prevOrder" className="nav-link" href="#">Prev Orders</Link>
+                        </div>
+                    </div>
                 </div>
                 <div className="main_body">
                     <div className="menu">

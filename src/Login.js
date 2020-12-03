@@ -194,63 +194,88 @@ class Login extends Component{
     render(){
         return(
          
-            <div className="main_wrapper">            
-                   <div className="header">
+            <div className="main_wrapper ">            
+                <div className="header mb-1000">
                     <h1 className="title">
                         Mr.Daebak Dinner Service
                     </h1>
                 </div>
-                <div className="login_wrapper">
-                    <TextField name="Login_id" className="loginId" type="text" placeholder="ID" />
-                    <TextField name="Login_pw" className="loginPw" type="password" placeholder="password"/>
-                    
-                    <Button className="loginBtn" color="secondary" onClick={()=>this.login_click_handler()}>Login</Button>
-                    <Button className="signupBtn" onClick={()=>this.open_signup_modal()}>Sign In</Button>
+                
+                <div className="card login_wrapper m-100"> 
+                    <div className="col-sm-5"/>
 
-                    <Modal ariaHideApp={false} isOpen={this.state.modalOpen} onRequestClose={()=>this.close_signup_modal()}>
-                        <div>
-                            <div className="signupModal">
-                                <span className="close" onClick={()=>this.close_signup_modal()}>
-                                &times;
-                                </span>
-                                <div className="modalContents" onClick={()=>this.state.modalOpen}>
-                                    <div>        
-                                        <label>이메일</label>
-                                        <TextField name="email" className="mod_input input_email" type="text" placeholder="email" onChange={this.input_handler}/>    
-                                    </div>
-                                    <div>
-                                        <label>비밀번호</label>
-                                        <TextField name="password" className="mod_input input_password" type="password" placeholder="password" onChange={this.input_handler}/>   
-                                    </div>
-                                    <div>   
-                                        <label>이름</label>
-                                        <TextField name="name" className="mod_input input_name" type="text" placeholder="name" onChange={this.input_handler}/>
-                                    </div> 
-                                    <div>   
-                                        <label>성별</label>
-                                        <TextField name="gender" className="mod_input input_gender" type="text" placeholder="gender" onChange={this.input_handler}/>
-                                    </div> 
-                                    <div>
-                                        <label>주소</label>
-                                        <TextField name="address" className="mod_input input_address" type="text" placeholder="address" onChange={this.input_handler}/>
-                                    </div>
-                                    <div>
-                                        <label>전화번호</label>
-                                        <TextField name="phone_number" className="mod_input input_phone_number" type="text" placeholder="phone number" onChange={this.input_handler}/>
-                                    </div>
-                                    <div>
-                                        <label>회원 종류</label>
-                                        <Select labelId="demo-simple-select-label" name="type" onChange={this.input_handler}>
-                                            <MenuItem value={"CUSTOMER"}>고객</MenuItem>
-                                            <MenuItem value={"COOK"}>요리사</MenuItem>
-                                            <MenuItem value={"DELIVERYMAN"}>배달원</MenuItem>
-                                        </Select>
-                                    </div>
-                                </div>
+                    <article className="card-body center-block col-sm-2">
+                    <h4 className="card-title text-center mb-4 mt-1">Log in</h4><hr></hr>
+                        <form>
+                            <div className="form-group">
+                            <div className="input-group col-sm-12">
+
+                                <TextField name="Login_id" className="loginId input_e" type="text" placeholder="ID" />
                             </div>
-                            <button onClick={()=>this.signup_handler()}>sign up</button>
-                        </div>
-                    </Modal>
+                            </div>
+                            <div className="form-group">
+                            <div className="input-group mx-0">
+
+                                <TextField name="Login_pw" className="loginPw input_e" type="password" placeholder="password"/>
+                            </div>
+                            </div>
+                            <Button className="loginBtn" color="secondary" onClick={()=>this.login_click_handler()}>Login</Button>
+                            <Button className="signupBtn" onClick={()=>this.open_signup_modal()}>Sign In</Button>
+                        
+                        </form>
+
+                        <Modal  className="bg-light modal-dialog modal-sm" ariaHideApp={false} isOpen={this.state.modalOpen} onRequestClose={()=>this.close_signup_modal()}>
+                            <div>
+                                <div className="modal-content bg-light signupModal">
+                                <div className="modal-header">
+
+                                    <span className="close" onClick={()=>this.close_signup_modal()}>
+                                    &times;
+                                    </span>
+                                    <h4 className="modal-title">회원가입</h4>
+                                    </div>
+                                    <div className="modal-body" onClick={()=>this.state.modalOpen}>
+                                        <div className="row">         
+                                            <label className="col-sm-5">이메일</label>
+                                            <TextField name="email" className="mod_input input_email" type="text" placeholder="email" onChange={this.input_handler}/>    
+                                        </div>
+                                        <div className="row">
+                                            <label className="col-sm-5">비밀번호</label>
+                                            <TextField name="password" className="mod_input input_password" type="password" placeholder="password" onChange={this.input_handler}/>   
+                                        </div>
+                                        <div className="row">   
+                                            <label className="col-sm-5">이름</label>
+                                            <TextField name="name" className="mod_input input_name" type="text" placeholder="name" onChange={this.input_handler}/>
+                                        </div> 
+                                        <div className="row">   
+                                            <label className="col-sm-5">성별</label>
+                                            <TextField name="gender" className="mod_input input_gender" type="text" placeholder="gender" onChange={this.input_handler}/>
+                                        </div> 
+                                        <div className="row">
+                                            <label className="col-sm-5">주소</label>
+                                            <TextField name="address" className="mod_input input_address" type="text" placeholder="address" onChange={this.input_handler}/>
+                                        </div>
+                                        <div className="row">
+                                            <label className="col-sm-5">전화번호</label>
+                                            <TextField name="phone_number" className="mod_input input_phone_number" type="text" placeholder="phone number" onChange={this.input_handler}/>
+                                        </div>
+                                        <div className="row">
+                                            <label className="col-sm-5">회원 종류</label>
+                                            <Select labelId="demo-simple-select-label" name="type" onChange={this.input_handler}>
+                                                <MenuItem value={"CUSTOMER"}>고객</MenuItem>
+                                                <MenuItem value={"COOK"}>요리사</MenuItem>
+                                                <MenuItem value={"DELIVERYMAN"}>배달원</MenuItem>
+                                            </Select>
+                                        </div>
+                                        </div>
+                                <div className="modal-footer">
+                                <button className="btn btn-default"onClick={()=>this.signup_handler()}>sign up</button>
+                                </div>
+                                    </div>
+
+                            </div>
+                        </Modal>
+                    </article>
                 </div>
             </div>
         )

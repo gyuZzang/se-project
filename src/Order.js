@@ -138,34 +138,47 @@ class Order extends Component{
         }
         else{
             dish2amount=this.state.dishList.map((dish)=>
-            (<li>
-                <div>{dish.name}</div>
-                <input type="number" name={dish.id} min="0" onChange={this.setDishAmount}></input>
+            (<li className="row">
+                <span className="col-sm-2 ">{dish.name}</span>
+                <input type="number" className="col-sm-3" name={dish.id} min="0" onChange={this.setDishAmount}></input>
             </li>))
             //spin box로 구현
             this.set_value()
             total_price=this.getTotalPrice()
         }
         return(
-            <div>
-                <h1>수량 변경</h1>
+            <div className="main_wrapper">            
+            <div className="header">
+                <h1 className="title">
+                    Mr.Daebak Dinner Service
+                </h1>
+            </div>
+            <div className="col-sm-3"></div>
+            <div className="col-sm-9">
+                <h1 className="mx-auto">수량 변경</h1>
                 <div>
                     {dish2amount}
                 </div>
                 <div>
-                    <div>total price</div>
-                    {total_price}
+                    <h3>총 가격:  {total_price}</h3>
+                   
+                </div>
                 </div>
                 <button className="order_button" onClick={()=>this.open_order_modal()}>Order</button>
-                <Modal ariaHideApp={false} isOpen={this.state.modalOpen} onRequestClose={()=>this.close_order_modal()}>
+                <Modal  className="bg-light modal-dialog modal-m" ariaHideApp={false} isOpen={this.state.modalOpen} onRequestClose={()=>this.close_order_modal()}>
                         <div>
-                            <div className="orderModal">
+                        <div className="modal-content bg-light signupModal">
+                                <div className="modal-header">
+
                                 <span className="close" onClick={()=>this.close_order_modal()}>
                                 &times;
                                 </span>
-                                <div className="modalContents" onClick={()=>this.state.modalOpen}>
-                                    <div>
-                                        배달 주소
+                                <h4 className="modal-title">주문 정보 입력</h4>
+
+                                </div>
+                                <div className="modal-body" onClick={()=>this.state.modalOpen}>
+                                    <div className="row">
+                                    <label className="col-sm-5">배달 주소</label>
                                         <input
                                             name="address"
                                             className="mod_input input_address"
@@ -174,8 +187,9 @@ class Order extends Component{
                                             onChange={this.input_handler}
                                         />
                                     </div>
-                                    <div>
-                                        결제 수단
+                                    
+                                    <div className="row">
+                                    <label className="col-sm-5"> 결제 수단</label>
                                         <select className="mod_input" name="payment_type" onChange={this.input_handler}>
                                             <option value="CARD">
                                                 카드 결제
@@ -188,8 +202,8 @@ class Order extends Component{
                                             </option>
                                         </select>
                                     </div>
-                                    <div>
-                                        요청 사항
+                                    <div className="row">
+                                    <label className="col-sm-5">요청 사항</label>
                                         <input
                                             name="comment"
                                             className="mod_input input_comment"
@@ -198,14 +212,19 @@ class Order extends Component{
                                             onChange={this.input_handler}
                                         />
                                     </div>
-                                </div>
-                            </div>
+                                </div>                            
+                                <div className="modal-footer">
+
                             <button onClick={()=>this.requestOrder()}>
                                     주문 완료
                             </button>
+                            </div>
                         </div>
+                            </div>
+
                     </Modal>
             </div>
+            
         )
     }
 }

@@ -60,10 +60,16 @@ class NextCook extends Component{
             DishList=this.state.cookingList.map((dish)=>(
                 <DishElement dish_name={dish.dish_name} quantity={dish.quantity}></DishElement>
             ))
-            button=<button onClick={()=>this.finish_cooking()}>요리완료!</button>
+            button=<button className="btn col-sm-5" onClick={()=>this.finish_cooking()}>요리완료!</button>
             
         }
         return(
+            <div className="main_wrapper">            
+            <Link to="/main_staff" className="header">
+                <h1 className="title">
+                Mr.Daebak Dinner Service</h1>
+            </Link>
+
             <div>
                 <div>
                     <h3>cooking List</h3>
@@ -75,6 +81,7 @@ class NextCook extends Component{
                 </div>
                 {button}
             </div>
+            </div>
         )
     }
 
@@ -82,12 +89,14 @@ class NextCook extends Component{
 
 function DishElement({dish_name, quantity}){
     return(
-        <li>
-            <div>
-                {dish_name} :   {quantity}
+        <div className="row">
+            <div className="col-sm-5">
+                {dish_name}  
+                </div>
+                <div>{quantity}
             </div>
 
-        </li>
+        </div>
     )
 }
 

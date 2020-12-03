@@ -29,9 +29,11 @@ class Main extends Component{
                     <h1 className="title">
                         Mr.Daebak Dinner Service
                     </h1>
-                    <Link to="/myInfo" className="prev_order_button">my Info</Link>
-                    <Link to="/customer" className="prev_order_button">customer</Link>
-                    <Link to="/admin/confirm" className="prev_order_button">confirm order</Link>
+                    <div className="row">
+                    <Link to="/myInfo" className="col-sm-3 prev_order_button">my Info</Link>
+                    <Link to="/customer" className="col-sm-3 prev_order_button">customer</Link>
+                    <Link to="/admin/confirm" className="col-sm-3 prev_order_button">confirm order</Link>
+                    </div>
                 </div>
                 <div className="main_body">
                     <div className="menu">
