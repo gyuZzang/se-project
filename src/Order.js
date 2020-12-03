@@ -7,20 +7,14 @@ import Modal from 'react-modal'
 class Order extends Component{
     state={
         dishList:null, //db 전체 dish 리스트
-        stylePrice:0,
-        selectedDishes:null, //선택 메뉴의 dish list
+        selectedDishes:this.props.location.data[0].dishes, //선택 메뉴의 dish list
         dish2amount:null, //front (html tag)
         payment_type:"CARD",
         address:null,
         comment:null,
         modalOpen:false,
     }
-    calc_style_price=()=>{
-        api.get(`/style/${this.props.match.params.style}`)
-        .then(response => {
-            this.setState({stylePrice: response.data.data.price})
-        })
-    }
+
     open_order_modal=()=>{
         this.setState({modalOpen:true})
     }    
@@ -34,24 +28,10 @@ class Order extends Component{
             console.log(this.state.dishList)
         })
     }
-    getSelectedDishes=()=>{
-        api.get(`/menu/${this.props.match.params.menu}`)
-        .then(response => {
-            let selectedDishes=[]
-            for(let i in response.data.data.menu_element_list){
-                selectedDishes
-                .push({
-                    'dish_id':response.data.data.menu_element_list[i].dish_id,
-                    'quantity':response.data.data.menu_element_list[i].quantity
-                })
-            }
-            this.setState({selectedDishes:selectedDishes}) 
-            //this.setState({selectedDishes:response.data.data.menu_element_list})
-        })
-    }
     getTotalPrice=()=>{
-        let sum=this.state.stylePrice
+        let sum=this.props.location.data[0].style.price
         this.state.selectedDishes.map((dish)=>{
+
            for(var i in this.state.dishList){
                 if(dish.dish_id===this.state.dishList[i].id)
                 {
@@ -66,20 +46,21 @@ class Order extends Component{
         const address=this.state.address
         const payment_type=this.state.payment_type
         const comment=this.state.comment
-        const style=this.props.match.params.style
+        const style=this.props.location.data[0].style.id
+        console.log(selectedDishes,address,payment_type,comment,style)
         api.post('/order',
             {
-                //transaction_time: Date(), //Q: 되나 이게?         A: 에러나니까 걍 빼자
-                //result_code: "200", //Q: 그냥 이렇게 넣으면 되나여    A: 어차피 안씀
+                transaction_time: new Date().toISOString(), //Q: 되나 이게?
+                result_code: "200", //Q: 그냥 이렇게 넣으면 되나여
                 description: "OK",
                 data: {
+                    order_at : new Date().toISOString(),
                     rev_address : address,
                     payment_type : payment_type,
                     comment : comment,
                     style : {
                         id : style
                     },
-                    order_at : new Date().toISOString(),
                     order_element_list : selectedDishes
                 },
                 pagination: { //Q: 뭘 넣어야하나..?
@@ -149,14 +130,11 @@ class Order extends Component{
 
 //TODO: 이거 안됨 히히
     render(){
+        console.log(this.props.location.data[0].dishes)
         let dish2amount=[]
         let total_price
         if(this.state.dishList===null){
             this.getDishList()
-            this.calc_style_price()
-        }
-        else if(this.state.selectedDishes===null){
-            this.getSelectedDishes()
         }
         else{
             dish2amount=this.state.dishList.map((dish)=>

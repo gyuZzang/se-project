@@ -4,6 +4,8 @@ import StyleList from '../ui/StyleList'
 import {Link} from 'react-router-dom'
 import api from '../API';
 import ModifyMenu from '../ui/ModifyMenu';
+import ModifyStyle from '../ui/ModifyStyle';
+import ModifyDish from '../ui/ModifyDish';
 
 //https://velog.io/@devmoonsh/React-Router : 페이지 이동 라우터
 class Main extends Component{
@@ -29,6 +31,7 @@ class Main extends Component{
                     </h1>
                     <Link to="/myInfo" className="prev_order_button">my Info</Link>
                     <Link to="/customer" className="prev_order_button">customer</Link>
+                    <Link to="/admin/confirm" className="prev_order_button">confirm order</Link>
                 </div>
                 <div className="main_body">
                     <div className="menu">
@@ -41,7 +44,13 @@ class Main extends Component{
                         <h2>
                             Style
                         </h2>
-                        <StyleList onSubmit={this.setSelectedStyle} />
+                        <ModifyStyle onSubmit={this.setSelectedStyle} />
+                    </div>                    
+                    <div className="menu">
+                        <h2>
+                            Dish
+                        </h2>
+                        <ModifyDish />
                     </div>
  
                 </div>                   

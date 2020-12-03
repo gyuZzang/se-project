@@ -1,30 +1,35 @@
 import React, { Component } from 'react';
 import api from '../API';
+import {Link} from 'react-router-dom'
 
 class CustomerInfo extends Component{
     state={
-        userList=null
+        userList:new Array(),
+        data:new Array()
     }
     getCustomerInfo=()=>{
         api.get('/users',{
-            page:0,
+            page:1,
             size:10
         })
         .then(res => {
-            this.setState({userList:res.data.data.user_list})
+            console.log(res.data.data)
+            this.setState({data:res.data.data})
         })
     }
     render(){
-        userList=[]
-        if(this.state.userList===null){
+        let userList=[]
+        console.log(this.state.data)
+        if(this.state.data.length===0){
             this.getCustomerInfo()
+            console.log('불러오기')
         }
-        else{
-            useList=this.state.userList.map((user)=>{
+        else if (this.state.userList.length===0){
+            userList=this.state.data.map((user)=>(
                 <li className="component--item_card" >
                     <div className="component--item_text">
                         <h3>
-                            <span >{user.email}</span>
+                            <span>{user.email}</span>
                         </h3>
                         <p> {user.name}</p>
                         <p> {user.gender}</p>
@@ -32,13 +37,22 @@ class CustomerInfo extends Component{
                         <p> {user.phone_number}</p>
                     </div>
                 </li>
-            })
+            ))
+            this.state.userList=userList
         }
         return(
-            <div>
-                <ul className="menu">
-                    {userList}
-                </ul>
+            <div className="main_wrapper">            
+                <Link to="/main_manager" className="header">
+                    <h1 className="title">
+                    Mr.Daebak Dinner Service</h1>
+                </Link>
+                <div className="main_body">
+                    <ul className="menu">
+                    <h2>Customer Information</h2>
+
+                        {this.state.userList}
+                    </ul>
+                </div>
 
             </div>
 
@@ -46,3 +60,5 @@ class CustomerInfo extends Component{
         )
     }
 }
+
+export default CustomerInfo

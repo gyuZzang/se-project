@@ -6,13 +6,9 @@ import Main from '../Main'
 
 class MenuList extends PureComponent{
     state={
-        ImageURL:"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS8HYRDM27ua4cdwbPY_S7K7SeFRIfuzBoFCg&usqp=CAU",
-        Name: "Set 1",
-        Price: "26,000",
-        Dishes: "pasta, steak, pizza, wine",
         data:null,
         menuList:null,
-        selectedMenu:""
+        selectedMenu: null
     }
     onFormSubmit = e => {
         this.setState({selectedMenu:e}) 
@@ -37,6 +33,7 @@ class MenuList extends PureComponent{
     // }
     render(){
         let menuList=[]
+        let dishList=[]
         if(this.state.data===null) {       
             this.getMenuListdata()       
         }   
@@ -45,31 +42,36 @@ class MenuList extends PureComponent{
             //console.log(data)
             menuList= this.state.data.map((i) => 
             { 
-                if(i.id===this.state.selectedMenu)
+                dishList=i.menu_element_list.map((dish) =>{ 
+                    console.log(dish)
+                    return <p>{dish.dish_name}: {dish.quantity}</p>
+                })
+
+                if(i===this.state.selectedMenu)
                 {
                     return(
-                        <li className="component--item_card_selected" onClick={()=>this.onFormSubmit(i.id)} >
+                        <li className="component--item_card_selected" onClick={()=>this.onFormSubmit(i)} >
                             <img src={i.img_url} className="image--itemcard" alt="" />
                             <div className="component--item_text">
                                 <h3>
                                     <span >{i.name}</span>
                                 </h3>
                                 <p> {i.total_price}</p>
-                                <p> {i.dish}</p>
+                                <p> {dishList}</p>
                             </div>
                         </li>
                     )
                 }
                 else{
                     return(
-                        <li className="component--item_card" onClick={()=>this.onFormSubmit(i.id)} >
+                        <li className="component--item_card" onClick={()=>this.onFormSubmit(i)} >
                             <img src={i.img_url} className="image--itemcard" alt="" />
                             <div className="component--item_text">
                                 <h3>
                                     <span >{i.name}</span>
                                 </h3>
                                 <p> {i.total_price}</p>
-                                <p> {i.dish}</p>
+
                             </div>
                         </li>
                     )

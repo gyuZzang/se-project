@@ -8,7 +8,7 @@ class StyleList extends PureComponent{
     state={
         data:null,
         styleList:null,
-        selectedStyle:""
+        selectedStyle: null
     }
     onFormSubmit = e => {
         this.setState({selectedStyle:e}) 
@@ -32,10 +32,10 @@ class StyleList extends PureComponent{
             //console.log(data)
             styleList= this.state.data.map((i) => 
             { 
-                if(i.id===this.state.selectedStyle)
+                if(i===this.state.selectedStyle)
                 {
                     return(
-                        <li className="component--item_card_selected" onClick={()=>this.onFormSubmit(i.id)} >
+                        <li className="component--item_card_selected" onClick={()=>this.onFormSubmit(i)} >
                             <img src={i.img_url} className="image--itemcard" alt="" />
                             <div className="component--item_text">
                                 <h3>
@@ -49,7 +49,7 @@ class StyleList extends PureComponent{
                 }
                 else{
                     return(
-                        <li className="component--item_card" onClick={()=>this.onFormSubmit(i.id)} >
+                        <li className="component--item_card" onClick={()=>this.onFormSubmit(i)} >
                             <img src={i.img_url} className="image--itemcard" alt="" />
                             <div className="component--item_text">
                                 <h3>

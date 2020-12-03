@@ -11,7 +11,6 @@ div{
     display: flex;
     flex-direction: row;
     background-color: #282c34;
-    /* min-height: 100vh; */
     text-align: center;
     justify-content: center;
     font-family: 'Times New Roman', Times, Arial, Helvetica, sans-serif;
@@ -36,7 +35,6 @@ div{
     color: white;
     border-style: none;
     margin-left: 30%;
-
 }
 
 .prev_order_button{

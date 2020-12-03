@@ -6,8 +6,6 @@ import Modal from 'react-modal'
 
 //1. 매니저 화면 : 메뉴 및 스타일 리스트 get, 수정, 추가, 삭제
 // dish 리스트 수정, 추가
-
-
 class ModifyMenu extends PureComponent{
     state={
         name: null,
@@ -19,7 +17,8 @@ class ModifyMenu extends PureComponent{
         dishList:null,
         dish2amount:null,
         selectedType:null,
-
+        total_price:null,
+        selectedDishes:[]
     }
     getDishList=()=>{
         api.get('/dish')
@@ -28,20 +27,26 @@ class ModifyMenu extends PureComponent{
             console.log(this.state.dishList)
         })
     }
-    getSelectedDishes=(id)=>{
-        api.get(`/menu/${id}`)
-        .then(response => {
+    getSelectedDishes=(i)=>{
+        console.log(i.name)
+        let id=i.id
+        let n=i.name
+        api.get(`/menu/${i.id}`)
+        .then(async response => {
             let selectedDishes=[]
-            for(let i in response.data.data.menu_element_list){
+            for(let j in response.data.data.menu_element_list){
                 selectedDishes
                 .push({
-                    'dish_id':response.data.data.menu_element_list[i].dish_id,
-                    'quantity':response.data.data.menu_element_list[i].quantity
+                    'dish_id':response.data.data.menu_element_list[j].dish_id,
+                    'quantity':response.data.data.menu_element_list[j].quantity
                 })
             }
-            this.setState({selectedDishes:selectedDishes}) 
+            this.setState({selectedDishes:selectedDishes, selectedMenu:id, name:n, selectedType:1})
+
+            this.set_value()
             //this.setState({selectedDishes:response.data.data.menu_element_list})
         })
+
     }
     getTotalPrice=()=>{
         let sum=0
@@ -55,13 +60,14 @@ class ModifyMenu extends PureComponent{
         })
         return sum
     }
-    set_value=()=>{
+    set_value=()=>{ //선택메뉴에 따라 front단 dish quantity 셋팅
         this.state.selectedDishes.map((dish)=>{
             try{
                 document.getElementsByName(dish.dish_id)[0].value=dish.quantity
             }
             catch{}
         })
+        document.getElementsByName("name")[0].value=this.state.name
     }
     get_value=(id)=>{
         let selectedDishes=this.state.selectedDishes
@@ -79,94 +85,98 @@ class ModifyMenu extends PureComponent{
     input_handler=(e)=>{
         const{name, value}=e.target
         this.setState({[name]:value}) 
+        console.log(name, value)
     }
-    setDishAmount=(e)=>{
+    setDishAmount=(dish)=>{
         let selectedDishes=this.state.selectedDishes
         let is_in = false
-        let {name,value} = e.target //name: dish id
-        name=Number.parseInt(name)
-        value=Number.parseInt(value)
+        let value=Number.parseInt(document.getElementsByName(dish.id)[0].value)
+        
+        console.log(dish)
         for(var i in selectedDishes)
         {
-            if(selectedDishes[i].dish_id===name) 
+            if(selectedDishes[i].dish_id===dish.id) 
             {
                 selectedDishes[i].quantity=value
                 is_in=true
             }
         }
-        if(!is_in) selectedDishes.push({'dish_id':name, 'quantity': value})
-        this.setState({selectedDishes:selectedDishes}).then( this.set_value() )
+        if(!is_in) selectedDishes.push({'dish_id':dish.id, 'quantity': value})
+        this.setState({selectedDishes:selectedDishes})
     }
-    //Q: create랑 수정이랑 디시리스트 통합 가능?
+    // requestDeleteMenu = () => {
+    //     api.
+    // }
     requestModifyMenu = () => {
+        console.log(this.state.selectedMenu,this.state.name,this.state.total_price,this.state.selectedDishes)
+
         api.put('/menu',{
-            
-                transaction_time: "2020-11-19T18:32:02.202686",
+                transaction_time: new Date().toISOString(),
                 result_code: "200",
                 description: "OK",
                 data: {
-                    id: 11,
-                    name: "테스트 메뉴",
-                    total_price: 32500,
-                    registered_at: null,
-                    unregistered_at: null,
-                    created_at: "2020-11-19T18:32:01.976779",
-                    created_by: "AdminServer",
-                    updated_at: "2020-11-19T18:32:01.976779",
-                    updated_by: "AdminServer",
-                    menu_element_list: [
-                        {
-                            id: 1,
-                            dish_id: 5,
-                            dish_name: "테스트 요리2",
-                            quantity: 1
-                        },
-                        {
-                            id: 2,
-                            dish_id: 6,
-                            dish_name: "테스트 요리3",
-                            quantity: 3
-                        }
-                    ]
+                    id: this.state.selectedMenu,
+                    name: this.state.name,
+                    total_price: this.state.total_price,
+                    menu_element_list: this.state.selectedDishes
                 },
                 pagination: null
             
         })
         .then(res => {
+            console.log(res)
+            this.close_modify_modal()
+            this.getMenuListdata()
 
         })
     }
     requestCreateMenu = () => {
-        api.put('/post',{
+        console.log(this.state.name,this.state.total_price,this.state.selectedDishes)
+        api.post('/menu',{
         
-            "transaction_time": "2020-11-19T15:48:24.518395",
-            "result_code": "200",
-            "description": "OK",
-            "data": 
+            transaction_time: new Date().toISOString(),
+            result_code: "200",
+            description: "OK",
+            data: 
                 {
-                    "name": "테스트 메뉴",
-                    "total_price": "30000",
-                    "menu_element_list": [
-                        {
-                            "dish_id" : 5,
-                            "quantity" :1
-                        },
-                        {
-                            "dish_id" : 6,
-                            "quantity" :2
-                        }
-                    ]
+                    name: this.state.name,
+                    total_price: this.state.total_price,
+                    menu_element_list: this.state.selectedDishes
+                    
                 }
         
         })
+        .then(res=>{
+            this.close_modify_modal()
+            this.getMenuListdata()
+        })
 
     }
-    requestDeleteMenu=()=>{
 
+    requestDeleteMenu=(id)=>{
+        this.setState({modalOpen:false})
+
+        console.log(id)
+        api.delete(`./menu/${id}`)
+        .then(res=>{
+            console.log(res)
+            if(res.data.description=='OK'){
+                alert('삭제완료')
+                this.getMenuListdata()
+
+            }
+        })
+        
     }
     modify_handler = (i) => {
+        if(i===undefined){ 
+            this.setState({selectedType:0})
+        }
+        else{
+            this.getSelectedDishes(i) 
+        }
         this.open_modify_modal()
-        this.setState({selectedType:i})
+
     }
 
     open_modify_modal=()=>{
@@ -175,8 +185,11 @@ class ModifyMenu extends PureComponent{
     close_modify_modal=()=>{
         this.setState({modalOpen:false})
     }
-    button_handler=()=>{
+    button_handler=async()=>{
         const type=this.state.selectedType
+        const name = document.getElementsByName("name")[0].value
+        await this.setState({name:name, total_price:this.getTotalPrice()})
+
         if(type===0){
             this.requestCreateMenu()
         }
@@ -189,33 +202,41 @@ class ModifyMenu extends PureComponent{
         api.get('/menu').then(response =>         
             {
                 this.setState({ data:response.data.data })
-                console.log(this.state.data)
             }
+
         )
     }
  
     render(){
         let menuList=[]
         let dish2amount=[]
-
+        let name=this.state.name
         if(this.state.data===null) {       
-            this.getMenuListdata()       
+            this.getMenuListdata()
+
+        }
+        else if(this.state.dishList===null){
+             this.getDishList()       
+
         }   
         else{
             //data=this.state.data
             //console.log(data)
             menuList= this.state.data.map((i) => 
             (
-                <li className="component--item_card" onClick={()=>this.modify_handler(1)} >
-                    <img src={i.img_url} className="image--itemcard" alt="" />
-                    <div className="component--item_text">
-                        <h3>
-                            <span >{i.name}</span>
-                        </h3>
-                        <p> {i.total_price}</p>
-                        <p> {i.dish}</p>
-                    </div>
-                </li>
+                <div>
+                    <li className="component--item_card" onClick={()=>this.modify_handler(i)} >
+                        <img src={i.img_url} className="image--itemcard" alt="" />
+                        <div className="component--item_text">
+                            <h3>
+                                <span >{i.name}</span>
+                            </h3>
+                            <p> {i.total_price}</p>
+                            <p> {i.dish}</p>
+                        </div>
+                    </li>                    
+                    <div><button onClick={()=>this.requestDeleteMenu(i.id)}>x</button> </div>
+                </div>
                     
             ))
             this.state.menuList=menuList
@@ -223,24 +244,30 @@ class ModifyMenu extends PureComponent{
             dish2amount=this.state.dishList.map((dish)=>
             (<li>
                 <div>{dish.name}</div>
-                <input type="number" name={dish.id} min="0" onChange={()=>this.setDishAmount()}></input>
+                <input type="number" name={dish.id} min="0" onChange={()=>this.setDishAmount(dish)}></input>
             </li>))
+            this.state.dish2amount=dish2amount
+
+            if(this.state.selectedDishes!=null){
+               this.state.total_price=this.getTotalPrice()
+            }
+            
         }    
 
         return(      
             <div>
                 <ul className="wrap_menu_list">                    
                         {this.state.menuList} 
-                        <li className="component--item_card" onClick={()=>this.modify_handler(0)}>
+                        <li className="component--item_card" onClick={()=>this.modify_handler()}>
                             <h1>
                                 +
                             </h1>
                         </li> 
                 </ul>
-                <Modal ariaHideApp={false} isOpen={this.state.modalOpen} onRequestClose={()=>this.close_signup_modal()}>
+                <Modal ariaHideApp={false} isOpen={this.state.modalOpen} onRequestClose={()=>this.close_modify_modal()}>
                         <div>
                             <div className="modifyModal">
-                                <span className="close" onClick={()=>this.close_signup_modal()}>
+                                <span className="close" onClick={()=>this.close_modify_modal()}>
                                 &times;
                                 </span>
                                 <div className="modalContents" onClick={()=>this.state.modalOpen}>
@@ -250,18 +277,11 @@ class ModifyMenu extends PureComponent{
                                             name="name"
                                             className="mod_input input_name"
                                             type="text"
-                                            placeholder="이름"
-                                            value=""
-                                            onChange={this.input_handler}
                                         />
-                                    </div>
-
-                                    {dish2amount}
-                                    <div>
-                                        가격: {()=>this.getTotalPrice()}
-                        
                                         
                                     </div>
+                                    {dish2amount}
+
                                 </div>
                             </div>
                             <button onClick={()=>this.button_handler()}>완료</button>

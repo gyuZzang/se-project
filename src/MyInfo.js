@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import api from './API';
 import Modal from 'react-modal'
+//api res 찍어볼 것
 class MyInfo extends Component{
     state={
         email:"",
@@ -20,7 +21,6 @@ class MyInfo extends Component{
             console.log(this.state.data)
         })
     }
-
     open_modify_modal=()=>{
         this.setState({modalOpen:true})
     }    
@@ -31,48 +31,59 @@ class MyInfo extends Component{
         const{name, value}=e.target
         this.setState({[name]:value})
     }
+    set_value=()=>{ 
+        document.getElementsByName('email')[0].value=this.state.email
+        document.getElementsByName('password')[0].value=this.state.password
+        document.getElementsByName('gender')[0].value=this.state.gender
+        document.getElementsByName("name")[0].value=this.state.name
+        document.getElementsByName('address')[0].value=this.state.address
+        document.getElementsByName('phone_number')[0].value=this.state.phone_number
+    }
+    open_modal_handler=async()=>{
+        await this.open_modify_modal()
+        this.set_value()
+    }
     modify_handler=()=>{
-        const email=this.state.email
-        const password=this.state.password
-        const gender=this.state.gender
-        const name=this.state.name
-        const address=this.state.address
-        const phone_number=this.state.phone_number
-        
+        const email=document.getElementsByName('email')[0].value
+        const password=document.getElementsByName('password')[0].value
+        const gender=document.getElementsByName('gender')[0].value
+        const name=document.getElementsByName('name')[0].value
+        const address=document.getElementsByName('address')[0].value
+        const phone_number=document.getElementsByName('phone_number')[0].value
         api.put('/user',
             {
                 "result_code": "200",
                 "description": "OK",
                 "data": 
                     {
-                        // "email": {email},            <----- {}를 씌우니까 에러가 나죠
-                        // "password": {password},
-                        // "name": {name},
-                        // "gender": {gender},
-                        // "address": {address},
-                        // "phone_number": {phone_number}
-                        email,
-                        password,
-                        name,
-                        gender,
-                        address,
-                        phone_number
+                        email:email,
+                        password:password,
+                        name:name,
+                        gender:gender,
+                        address:address,
+                        phone_number:phone_number
                     }
             }
         )
         .then(res => {
             console.log(res);
+            alert('수정 완료되었습니다!')
+            this.close_modify_modal()
+            this.getMyInfodata()
         })
 
     }
 
-    setInfo=()=>{
-        this.setState({email:this.state.data.email,
+    setInfo=async()=>{
+        await this.setState({email:this.state.data.email,
             name:this.state.data.name,
+            password:this.state.data.password,
             gender:this.state.data.gender,
             address:this.state.data.address,
             phone_number:this.state.data.phone_number
         })
+
+        //this.set_value()
     }
 
     render(){
@@ -98,61 +109,72 @@ class MyInfo extends Component{
         return(
             <div>
                 <h1>My Info</h1>
-                <button onClick={()=>this.open_modify_modal()}>modification</button>
+                <button onClick={()=>this.open_modal_handler()}>modification</button>
                 <Modal isOpen={this.state.modalOpen} onRequestClose={()=>this.close_modify_modal()}>
-                    <h2>
+
+                    <div>
+                        <div className="loginModal">                    
+                        <h2>
                         Modify My Info
                     </h2>
-                    <div>
-                        <div className="loginModal">
                             <span className="close" onClick={()=>this.close_modify_modal()}>
                             &times;
                             </span>
-                            <div className="modalContents" onClick={()=>this.state.modalOpen()}>
+                            <div className="modalContents" onClick={this.state.modalOpen}>
+                                <div>
+                                email
                                 <input
                                     name="email"
                                     className="mod_input input_email"
-                                    type="text"
-                                    placeholder={this.state.email}
-                                    onChange={()=>this.input_handler()}
-                                />
+                                    type="email"
+                                    onChange={this.input_handler}
+                                /></div><div>
+                                password
                                 <input
                                     name="password"
                                     className="mod_input input_password"
                                     type="password"
-                                    placeholder={this.state.password}
-                                    onChange={()=>this.input_handler()}
-                                />
+                                    onChange={this.input_handler}
+
+                                /></div>
+                                <div>
+                                name
                                 <input
                                     name="name"
                                     className="mod_input input_name"
                                     type="text"
-                                    placeholder={this.state.name}
-                                    onChange={()=>this.input_handler()}
-                                />                                
+                                    onChange={this.input_handler}
+
+                                /> </div>
+                                <div>
+                                gender                               
                                 <input
                                 name="gender"
                                 className="mod_input input_gender"
                                 type="text"
-                                placeholder={this.state.gender}
-                                onChange={()=>this.input_handler()}
-                            />
+                                onChange={this.input_handler}
+
+                            /></div>
+                            <div>
+                                address
                                 <input
                                     name="address"
                                     className="mod_input input_address"
                                     type="text"
-                                    placeholder={this.state.address}
-                                    onChange={()=>this.input_handler()}
-                                />
+                                    onChange={this.input_handler}
+
+                                /></div>
+                                <div>
+                                phone number
                                 <input
                                     name="phone_number"
                                     className="mod_input input_phone_number"
                                     type="text"
-                                    placeholder={this.state.phone_number}
-                                    onChange={()=>this.input_handler()}
-                                />
+                                    onChange={this.input_handler}
+
+                                /></div>
                             </div>
-                            <button className="loginBtn" onClick={()=>this.modify_handler()}>
+                            <button className="modal_button" onClick={()=>this.modify_handler()}>
                                 {" "}
                                 수정{" "}
                             </button>
